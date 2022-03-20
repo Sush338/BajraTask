@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <div style="display:none">
+        @using (Html.BeginForm("Logout", "Users", FormMethod.Post, new { id = "logoutForm" }))
+        {
+
+            @Html.AntiForgeryToken()
+        }
+    </div>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #667a7a">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Employee Management", "GetAllEmployee", "Employee", new { area = "" }, new { @class = "navbar-brand", @style="color:lightYellow" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" style="float:right">
+                    <li>@Html.ActionLink("Add Employee", "AddEmployee", "Employee")</li>
+                        @*<li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="~/Content/Images/user1-128x128.jpg" class="user-image" />
+                            <span style="font-weight: 900;color:lightyellow"> @HttpContext.Current.User.Identity.Name</span>
+
+                        </a>
+                        <ul class="dropdown-menu" style="margin-right: -7rem; background: #c4e0e1">
+                            <li class="user-header">
+                                <img src="~/Content/Images/user1-128x128.jpg" class="user-image" />
+                                <p>
+                                    @HttpContext.Current.User.Identity.Name
+                                </p>
+                            </li>
+                            <li class="user-footer">
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-flat li-dropdown-notifications-logout">Sign out</a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        @*<footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>*@
+    </div>
+
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<style>
+    .nav > li > a > img {
+        max-width: 34px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('.li-dropdown-notifications-logout').click(function () {
+            debugger;
+            document.getElementById('logoutForm').submit();
+
+        });
+    })
+</script>

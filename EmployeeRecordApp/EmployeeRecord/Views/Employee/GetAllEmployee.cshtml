@@ -1,0 +1,128 @@
+﻿@model IEnumerable<EmployeeRecord.Models.EmployeeData>
+@{
+    ViewBag.Title = "GetAllEmployee";
+}
+
+<style>
+    .ui-button {
+     display:none;
+    }
+    .ui-dialog
+    {
+        background:bisque;
+    }
+    .box {
+        padding: 30px 10px 10px 30px; 
+        background-color: aliceblue;
+    }
+    
+</style>
+
+<div class="box">
+    <div class="box-header">
+        <div class="box-title">
+            <h4> List of Employees </h4>
+        </div>
+    </div>
+    <div class="box-body">
+        <div style="overflow:auto">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th> Employee Full Name</th>
+                        <th> Monthly Salary</th>
+                        <th> Total Months Worked</th>
+                        <th> Total Salary Earned</th>
+                        <th> Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model)
+            {
+                    <tr>
+                        <td>@item.FirstName &nbsp; @item.MiddleName &nbsp; @item.LastName</td>
+                        <td> @item.MonthlySalary</td>
+                        <td> @item.TotalWorkedMonth</td>
+                        <td> @item.TotalSalaryEarned</td>
+                        @*<td> @Html.ActionLink("Edit", "EditEmployee", "Employee", new { id = item.EmployeeId }) </td>*@
+                        <td> <a href="@Url.Action("EditEmployee", "Employee", new {id=item.EmployeeId})"> Edit </a>
+                             <a onclick="openDialog(@item.EmployeeId)"> Delete </a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+                <tfoot>
+                    <tr></tr>
+                    <tr>
+                        <th> Total</th>
+                        <th>@ViewBag.MonthlySalarySum</th>
+                        <th></th>
+                        <th>@ViewBag.TotalSalSum</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="Popup" class="DialogPopup" title="Remarks Text">
+    <div class="modal-footer">
+        <div class="col-md-6">
+            <input type="button" value="yes" class="btn btn-default col-md-12" id="btnSubmit" onclick="DeleteRecord()" />
+        </div>
+        <div class="col-md-6">
+            <input type="button" value="No" class="btn btn-default col-md-12" id="btnNo" />
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+<script>
+    function documentLoad() {
+        $("#Popup").dialog({
+            modal: true,
+            autoOpen: false,
+            width: 400,
+
+            title: "Do you sure want to Delete Employee",
+            //show: {
+            //    effect: "show",
+            //    //duration: 150
+            //},
+            hide: {
+                effect: "fade",
+                //duration: 150
+            },
+
+            clickOutside: true,
+            clickOutsideTrigger: ".rejectBtn"
+        });
+    }
+    $(document).ready(function (e) {
+        documentLoad();
+
+    })
+
+    var Identification;
+    function openDialog(Id) {
+        $(".DialogPopup").dialog("open");
+        Identification = Id;
+
+    }
+
+    $('#btnNo').on('click', function (e) {
+        $(".DialogPopup").dialog("close");
+    })
+
+    function DeleteRecord() {
+        $(".DialogPopup").dialog("close");
+        var id = Identification;
+        $.post('/Employee/DeleteEmployee', { id: id }, function (data) {
+            alert(data);
+            location.reload();
+        })
+    }
+
+
+</script>
+

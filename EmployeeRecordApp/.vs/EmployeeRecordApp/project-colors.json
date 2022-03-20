@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "edc1ee3d-230e-4f2c-9018-20bc86da9c94": {
+      "ProjectGuid": "edc1ee3d-230e-4f2c-9018-20bc86da9c94",
+      "DisplayName": "EmployeeRecord",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
