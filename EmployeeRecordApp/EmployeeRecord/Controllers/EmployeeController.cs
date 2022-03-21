@@ -43,6 +43,7 @@ namespace EmployeeRecord.Controllers
 
         public ActionResult AddEmployee()
         {
+            ViewBag.heading = "Add Employee";
             return View();
         }
 
@@ -84,7 +85,9 @@ namespace EmployeeRecord.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.heading = "Edit Employee";
             return View("AddEmployee", EmpData);
+            
         }
 
         [HttpPost]
